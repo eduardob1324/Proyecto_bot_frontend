@@ -1,0 +1,200 @@
+<div class="wrapper">
+    <app-menu></app-menu>
+    <div class="main">
+      <app-header></app-header>
+      <main class="content">
+        <div class="container-fluid p-0">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item" aria-current="page" ><a routerLink="/home">home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Pandawans</li>
+            </ol>
+          </nav>
+          <h1 class="h3 mb-3">Pandawans</h1>
+          <div class="row">
+              <div class="col-12 col-lg-12 d-flex">
+                  <div class="card flex-fill">
+                      <div class="card-header">
+                          <a class="btn btn-outline-primary float-end" title="add" (click)="addModal()">
+                              <i class="fas fa-check"></i> add
+                          </a>
+                      </div>
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table class="table table-bordered table-striped table-hover">
+                                  <thead>
+                                      <tr>
+                                          <th>ID</th>
+                                          <th>NAME</th>
+                                          <th>USER_DISCORD</th>
+                                          <th>EMAIL</th>
+                                          <th>NUMBER</th>
+                                          <th>DATE_BIRTH</th>
+                                          <th>GENDER</th>
+                                          <th>GENERATION</th>
+                                          <th>SPECIALITY</th>
+                                          <th>PROGRAM_EMAIL</th>
+                                          <th>ACTIONS</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    @for (pandawan of listPandawans; track pandawan.id) {
+                                      <tr>
+                                        <td>{{pandawan.id}}</td>
+                                        <td>{{pandawan.name}}</td>
+                                        <td>{{pandawan.discordUser}}</td>
+                                        <td>{{pandawan.email}}</td>
+                                        <td>{{pandawan.phoneNumber}}</td>
+                                        <td>{{pandawan.dateBirth}}</td>
+                                        <td>{{pandawan.gender}}</td>
+                                        <td>{{pandawan.generation.name}}</td>
+                                        <td>{{pandawan.speciality?.name}}</td>
+                                        <td>{{pandawan.programEmail}}</td>
+                                        <td class="text-center">
+                                          <a style="color: #3b7ddd;" (click)="editModal(pandawan)" >
+                                            <i class="fas fa-edit"></i>
+                                          </a>
+                                          <a style="color: #d33;" >
+                                            <i class="fas fa-delete-left" (click)="delete(pandawan)"></i>
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    }
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </main>
+      <app-footer></app-footer>
+    </div>
+  </div>
+  <!--Modal-->
+  <ng-template #myModalConf let-modalssss>
+    <div class="modal-content" style="background-color: #fff;">
+      <div class="modal-header text-white mb-3">
+        <h4 class="modal-title">{{modalTitle}}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="closeModal()" title="cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="pandawanForm" (submit)="send()">
+          <div class="mb-3">
+            <label for="name">Name:</label> 
+            <input [class.border-danger]="pandawanForm.controls.name" type="text" class="form-control" formControlName="name" required="true"/>
+            <div class="alert alert-error">
+              @if (pandawanForm.controls.name.getError('required')) {
+                <div class="requisito" >
+                 - el campo es requerido
+                </div>
+              }
+            </div> 
+            <hr/> 
+            <label for="discord_user">User Discord:</label> 
+            <input [class.border-danger]="pandawanForm.controls.discord_user" type="number" class="form-control" formControlName="discord_user" required="true"/>
+            <div class="alert alert-error">
+              @if (pandawanForm.controls.discord_user.getError('required')) {
+                <div class="requisito" >
+                 - el campo es requerido
+                </div>
+              }
+            </div>
+            <hr/> 
+            <label for="email">Email:</label> 
+            <input [class.border-danger]="pandawanForm.controls.email" type="email" class="form-control" formControlName="email" required="true"/>
+            <div class="alert alert-error">
+              @if (pandawanForm.controls.email.getError('required')) {
+                <div class="requisito" >
+                 - el campo es requerido
+                </div>
+              }
+              @if (pandawanForm.controls.email.getError('email')) {
+                <div class="requisito" >
+                 - no es tipo email
+                </div>
+              }
+            </div>
+            <hr/>  
+            <label for="phone_number">Phone number:</label> 
+            <input [class.border-danger]="pandawanForm.controls.phone_number" type="number" class="form-control" formControlName="phone_number" required="true"/>
+            <div class="alert alert-error">
+              @if (pandawanForm.controls.phone_number.getError('required')) {
+                <div class="requisito" >
+                 - el campo es requerido
+                </div>
+              }
+              @if (pandawanForm.controls.phone_number.getError('pattern')) {
+                <div class="requisito" >
+                - se la longitud debe ser de 10 digitos
+                </div>
+              }
+            </div>
+            <hr/>  
+            <label for="date_birth">Date Birth:</label> 
+            <input [class.border-danger]="pandawanForm.controls.date_birth" type="date" class="form-control" formControlName="date_birth" required="true"/>
+            <div class="alert alert-error">
+              @if (pandawanForm.controls.date_birth.getError('required')) {
+                <div class="requisito" >
+                 - el campo es requerido
+                </div>
+              }
+            </div>
+            <hr/>
+            <label for="gender">Gender:</label> 
+            <select [class.border-danger]="pandawanForm.controls.gender" formControlName="gender" class="form-select">
+              <option value="" disabled selected>Seleccione:</option>
+              <option value="H" selected>Hombre</option>
+              <option value="F" selected>Mujer</option>
+              <option value="O" selected>Otro</option>
+            </select>
+            @if (pandawanForm.controls.gender.getError('required') ) {
+              <div class="requisito">
+                - el campo es requerido
+              </div>
+            }
+            <hr/>
+            <label for="generation">Generation</label> 
+            <select [class.border-danger]="pandawanForm.controls.generation" formControlName="generation" class="form-select" required="true">
+              <option value="" disabled selected>Seleccione:</option>
+              @for (generation of listGenerations; track generation.id){
+                <option [value]="generation.id">{{generation.name}}</option>
+              }
+            </select>
+            @if (pandawanForm.controls.generation.getError('required') ) {
+              <div class="requisito">
+                - el campo es requerido
+              </div>
+            }
+            <hr/>
+            <label for="speciality">Speciality</label> 
+            <select  formControlName="speciality" class="form-select" required="false">
+              <option value="" disabled selected>Seleccione:</option>
+                @for (speciality of listSpecialities; track speciality.id){
+                  <option [value]="speciality.id">{{speciality.name}}</option>
+                }
+            </select>
+            <hr/>
+            <label for="programEmail">ProgramEmail:</label> 
+            <input  type="email" class="form-control" formControlName="programEmail" required="false"/>
+          </div>
+          <hr/>
+          <div class="mb-3" style="text-align: right">
+            @if (modalTitle == "Add") {
+              <button type="submit" class="btn btn-primary" [disabled]="!pandawanForm.valid">
+                <i class="fas fa-arrow-up"></i> Add
+              </button>
+            }
+            @if (modalTitle == "Edit") {
+              <button type="submit" class="btn btn-warning" [disabled]="!pandawanForm.valid">
+                <i class="fas fa-pencil"></i> Edit
+              </button>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+  <!--Modal-->

@@ -1,0 +1,97 @@
+<div class="wrapper">
+  <app-menu></app-menu>
+  <div class="main">
+    <app-header></app-header>
+    <main class="content">
+      <div class="container-fluid p-0">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page" ><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Specialities</li>
+          </ol>
+        </nav>
+        <h1 class="h3 mb-3">Specialities</h1>
+        <div class="row">
+            <div class="col-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+                        <a class="btn btn-outline-primary float-end" title="add" (click)="addModal()">
+                            <i class="fas fa-check"></i> add
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>NAME</th>
+                                        <th>acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  @for (speciality of listSpecialities; track speciality.id) {
+                                    <tr>
+                                      <td>{{speciality.id}}</td>
+                                      <td>{{speciality.name}}</td>
+                                      <td class="text-center">
+                                        <a style="color: #3b7ddd;" >
+                                          <i class="fas fa-edit" (click)="editModal(speciality)"></i>
+                                        </a>
+                                        <a style="color: #d33;" >
+                                          <i class="fas fa-delete-left" (click)="delete(speciality)"></i>
+                                        </a>
+                                      </td>
+                                    </tr>
+                                  }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </div>
+</div>
+<!--Modal-->
+<ng-template #myModalConf let-modalssss>
+  <div class="modal-content" style="background-color: #fff;">
+    <div class="modal-header text-white mb-3">
+      <h4 class="modal-title">{{modalTitle}}</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="closeModal()" title="cerrar"></button>
+    </div>
+    <div class="modal-body">
+      <form name="form" id="form" (submit)="save()" #formulary="ngForm">
+        <div class="mb-3">
+          <label for="name">Name:</label> 
+          <input type="text" name="name" class="form-control" [(ngModel)]="modelSpeciality.name"
+          #name="ngModel" required="true" placeholder="Name"/>
+          @if (name.invalid && (name.dirty || name.touched)) {
+            <div class="alert alert-danger">
+              @if(name.errors){
+                <div>The name is required</div>
+              }
+            </div>
+          }
+        </div>
+        <hr/> 
+        <div class="mb-3" style="text-align: right">
+          @if (modalTitle == "Add") {
+            <button type="submit" class="btn btn-primary" [disabled]="!formulary.form.valid">
+              <i class="fas fa-arrow-up"></i> Add
+            </button>
+          }
+          @if (modalTitle == "Edit") {
+            <button type="submit" class="btn btn-warning" [disabled]="!formulary.form.valid">
+              <i class="fas fa-pencil"></i> Edit
+            </button>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

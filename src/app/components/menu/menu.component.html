@@ -1,0 +1,51 @@
+<nav id="sidebar" class="sidebar js-sidebar">
+  <div class="sidebar-content js-simplebar">
+    <a class="sidebar-brand" >
+      <span class="align-middle">Bot-Discord</span>
+    </a>
+
+    <ul class="sidebar-nav">
+      
+      <li class="sidebar-header">administrator</li>
+      <li class="sidebar-item ">
+        <a class="sidebar-link" routerLink="/home">
+          <span class="align-middle">Dashboard</span>
+        </a>
+      </li>
+      @if(profile_id == 1 ){
+        <!-- <li class="sidebar-header">administrator</li> -->
+        
+        <li class="sidebar-item  ">
+          <a class="sidebar-link" routerLink="/programs" title="programs">
+            <i class="align-middle"></i>
+            <span class="align-middle">Programs</span>
+          </a>
+        </li>
+        <li class="sidebar-item ative">
+          <a class="sidebar-link" routerLink="/generations" title="generations">
+            <i class="align-middle" ></i>
+            <span class="align-middle">Generations</span>
+          </a>
+        </li>
+        <li class="sidebar-item ative">
+          <a class="sidebar-link" routerLink="/specialities" title="specialities">
+            <i class="align-middle" ></i>
+            <span class="align-middle">Specialities</span>
+          </a>
+        </li>
+        <li class="sidebar-item ative">
+          <a class="sidebar-link" routerLink="/pandawans" title="pandawans">
+            <i class="align-middle" ></i>
+            <span class="align-middle">Pandawans</span>
+          </a>
+        </li>
+        <li class="sidebar-item ative">
+          <a class="sidebar-link" routerLink="/events" title="events">
+            <i class="align-middle" ></i>
+            <span class="align-middle">Events</span>
+          </a>
+        </li>
+      }      
+    </ul>
+  </div>
+</nav>
